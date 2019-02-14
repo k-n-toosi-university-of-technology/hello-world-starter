@@ -91,10 +91,10 @@ public class CheckStyleTest {
         } catch (CheckstyleException ex) {
             Logger.getLogger(CheckStyleTest.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.println("Found " + errors + " check style errors.");
-        System.out.println(sos.toString());
+        System.err.println("Found " + errors + " check style errors.");
+        System.err.println(sos.toString());
         assertTrue(errors + " check style errors found. " + sos.toString(), errors == 0);
-
+        System.err.println("$$$GRADER$$$ | { type:\"SCORE\" , amount:5 , reason:\"Your coding style is correct.\" } | $$$GRADER$$$" );
         /*
          * Clean up
          */

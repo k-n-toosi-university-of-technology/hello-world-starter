@@ -22,7 +22,9 @@ import org.junit.Test;
  * @author mhrimaz
  */
 public class CheckOutputTest {
-
+    static {
+        System.err.println("$$$GRADER$$$ | { type:\"MSG\" , key:\"TOTAL\" , value:10, priority:1  }  | $$$GRADER$$$");
+    }
     @Test
     public void testOutput() {
         PrintStream printStream = null;
@@ -33,6 +35,7 @@ public class CheckOutputTest {
                 System.setOut(printStream);
                 HelloWorld.main(new String[]{});
                 Assert.assertTrue(reader.readLine().equalsIgnoreCase("Hello World!"));
+                System.err.println("$$$GRADER$$$ | { type:\"SCORE\" , amount:5 , reason:\"Your Output is correct.\" } | $$$GRADER$$$" );
             } catch (Exception ex) {
                 Assert.fail(ex.getMessage());
             }
