@@ -7,4 +7,8 @@
 
 ## Assignment discription
 
-Fill the //TODO sections appropriately
+Create a file named HelloWorld.java in the src/main/java/ir/ac/kntu folder.
+
+Put a `System.out.printlnt` in your main method and print `Hello World!`.
+
+Get your travis badge and grader badge and update the README.md file.
