@@ -4,8 +4,6 @@
 
 YOUR_TRAVIS_BADGE looks like this: https://travis-ci.org/k-n-toosi-university-of-technology/<REPO_NAME>
 
-## Grader Status
-
 [![Grader Status](YOUR_GRADER_BADGE)](YOUR_GRADER_BADGE)
 
 YOUR_GRADER_BADGE looks like this: https://kntu-grader.herokuapp.com/minimal?repo=<REPO_NAME>&id=<YOUR_STUDENT_ID>
