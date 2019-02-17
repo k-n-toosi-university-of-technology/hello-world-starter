@@ -36,7 +36,7 @@ public class CheckStyleTest {
     public void testCheckGraderChanging() {
         final Pattern pattern =
                 Pattern.compile("\\$\\$\\\\$GRADER\\$\\$\\$ \\| (.*) \\| \\$\\$\\$GRADER\\$\\$\\$");
-        File root = new File("src/main/");
+        File root = new File("src/main/java");
 
         List<File> files = new ArrayList<>();
         listFiles(files, root, "java");
