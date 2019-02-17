@@ -35,17 +35,44 @@ public class CheckStyleTest {
     @Test
     public void testCheckGraderChanging() {
         final Pattern pattern =
-                Pattern.compile("\\$\\$\\\\$GRADER\\$\\$\\$ \\| (.*) \\| \\$\\$\\$GRADER\\$\\$\\$");
-        File root = new File("src/main/java");
+                Pattern.compile("\"\\$\"\\s*\\+?\\s*\"\\$\"\\s*\\+?\\s*\"\\$\"");
 
+        File root = new File("src/main/java");
         List<File> files = new ArrayList<>();
         listFiles(files, root, "java");
 
 
         for (File file : files) {
             try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-                assertFalse(reader.lines()
-                        .noneMatch(pattern.asPredicate()));
+//                assertFalse(reader.lines()
+//                        .noneMatch(pattern.asPredicate()));
+                String s;
+                StringBuilder temp = new StringBuilder();
+                boolean testAssert = false;
+                while ((s = reader.readLine()) != null) {
+                    temp.append(s.trim());
+                    if (!s.endsWith(";")) {
+                        continue;
+                    }
+
+                    System.out.println("temp is " + temp);
+
+//                    if (!s.startsWith("\\s*System.out")){
+//                        continue;
+//                    }
+
+//                    System.out.println(s);
+
+                    if (pattern.matcher(temp.toString()).find()) {
+                        System.out.println("temp is regex+ " + temp);
+                        testAssert = true;
+                        break;
+                    }
+
+                    temp = new StringBuilder();
+                }
+
+                assertFalse(testAssert);
             } catch (IOException e) {
                 e.printStackTrace();
             }
