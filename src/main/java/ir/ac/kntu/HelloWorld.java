@@ -1,3 +1,6 @@
-//TODO: Create a class name HelloWorld.
-//TODO: Create the main method.
-//TODO: print 'Hello World!'
+package ir.ac.kntu;
+public class HelloWorld{
+    public static void main(String[] args) {
+        System.out.println("Hello World!");
+    }
+}
