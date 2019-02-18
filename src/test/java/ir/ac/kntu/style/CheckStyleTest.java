@@ -13,24 +13,74 @@ import com.puppycrawl.tools.checkstyle.PropertiesExpander;
 import com.puppycrawl.tools.checkstyle.api.AuditListener;
 import com.puppycrawl.tools.checkstyle.api.CheckstyleException;
 import com.puppycrawl.tools.checkstyle.api.Configuration;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
+
 import org.junit.Test;
+
 import static org.junit.Assert.*;
+
 import org.xml.sax.InputSource;
 
 /**
- *
  * @author mhrimaz
  */
 public class CheckStyleTest {
-    
+
+    @Test
+    public void testCheckGraderChanging() {
+        final Pattern pattern =
+                Pattern.compile("\"\\$\"\\s*\\+?\\s*\"\\$\"\\s*\\+?\\s*\"\\$\"");
+
+        File root = new File("src/main/java");
+        List<File> files = new ArrayList<>();
+        listFiles(files, root, "java");
+
+
+        for (File file : files) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+//                assertFalse(reader.lines()
+//                        .noneMatch(pattern.asPredicate()));
+                String s;
+                StringBuilder temp = new StringBuilder();
+                boolean testAssert = false;
+                while ((s = reader.readLine()) != null) {
+                    temp.append(s.trim());
+                    if (!s.endsWith(";")) {
+                        continue;
+                    }
+
+                    System.out.println("temp is " + temp);
+
+//                    if (!s.startsWith("\\s*System.out")){
+//                        continue;
+//                    }
+
+//                    System.out.println(s);
+
+                    if (pattern.matcher(temp.toString()).find()) {
+                        System.out.println("temp is regex+ " + temp);
+                        testAssert = true;
+                        break;
+                    }
+
+                    temp = new StringBuilder();
+                }
+
+                assertFalse(testAssert);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+    }
+
     @Test
     public void testCheckStyleNaming() {
 
@@ -60,7 +110,7 @@ public class CheckStyleTest {
         } catch (FileNotFoundException ex) {
             Logger.getLogger(CheckStyleTest.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         Configuration configuration = null;
         try {
             configuration = ConfigurationLoader.loadConfiguration(inputSource,
@@ -94,7 +144,7 @@ public class CheckStyleTest {
         System.err.println("Found " + errors + " check style errors.");
         System.err.println(sos.toString());
         assertTrue(errors + " check style errors found. " + sos.toString(), errors == 0);
-        System.err.println("$$$GRADER$$$ | { type:\"SCORE\" , amount:5 , reason:\"Your coding style is correct.\" } | $$$GRADER$$$" );
+        System.err.println("$$$GRADER$$$ | { type:\"SCORE\" , amount:5 , reason:\"Your coding style is correct.\" } | $$$GRADER$$$");
         /*
          * Clean up
          */
@@ -102,7 +152,7 @@ public class CheckStyleTest {
 
     }
 
-    private static void listFiles(List files, File folder, String extension) {
+    private static void listFiles(List<File> files, File folder, String extension) {
         if (folder.canRead()) {
             if (folder.isDirectory()) {
                 for (File f : folder.listFiles()) {
